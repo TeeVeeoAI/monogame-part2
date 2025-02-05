@@ -12,6 +12,10 @@ namespace monogame_part2
         private Microsoft.Xna.Framework.Rectangle hitbox;
         private float speed;
 
+        public Microsoft.Xna.Framework.Rectangle Hitbox{
+            get{ return hitbox; }
+        }
+
         public Enemy(Texture2D texture){
             this.texture = texture;
             Random rand = new Random();

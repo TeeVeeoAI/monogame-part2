@@ -50,7 +50,7 @@ public class Game1 : Game
         foreach (Enemy enemy in enemies){
             enemy.Update();
         }
-
+        EnemyBulletCollision();
         SpawnEnemy();
     
         base.Update(gameTime);
@@ -78,5 +78,18 @@ public class Game1 : Game
         int spawnChancePercent = 5;
         if (value <= spawnChancePercent)
             enemies.Add(new Enemy(spaceShip));
+    }
+
+    private void EnemyBulletCollision(){
+        for(int i = 0; i < enemies.Count; i++){
+            for(int j = 0; j < player.Bullets.Count; j++){
+                if(enemies[i].Hitbox.Intersects(player.Bullets[j].Hitbox)){
+                    enemies.RemoveAt(i);
+                    player.Bullets.RemoveAt(j);
+                    i--;
+                    j--;
+                }
+            }
+        }
     }
 }
