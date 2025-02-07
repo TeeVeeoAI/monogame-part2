@@ -12,6 +12,9 @@ namespace monogame_part2
         public Rectangle Hitbox{
             get{ return hitbox; }
         }
+        public Vector2 Position{
+            get{ return position; }
+        }
 
         public Bullet(Texture2D texture, Vector2 spawnPosition){
             this.texture = texture;

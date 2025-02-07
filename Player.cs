@@ -17,6 +17,9 @@ namespace monogame_part2
         public List<Bullet> Bullets{
             get{ return bullets; }
         }
+        public Rectangle Hitbox{
+            get{ return hitbox; }
+        }
         
         public Player(Texture2D texture, Vector2 position, int pixelSize){
             this.texture = texture;

@@ -13,6 +13,10 @@ public class Game1 : Game
     private Player player;
     private Texture2D spaceShip;
     private List<Enemy> enemies = new List<Enemy>();
+    private int hp = 3;
+    private Texture2D fullHeart;
+    private Texture2D heart;
+    private Texture2D notFullHeart;
 
     public Game1()
     {
@@ -36,6 +40,8 @@ public class Game1 : Game
 
         player = new Player(spaceShip, new Vector2(380, 350), 50);
 
+        fullHeart = Content.Load<Texture2D>("fullHeart");
+
         // TODO: use this.Content to load your game content here
     }
 
@@ -50,7 +56,7 @@ public class Game1 : Game
         foreach (Enemy enemy in enemies){
             enemy.Update();
         }
-        EnemyBulletCollision();
+        EnemyBulletCollisionAndPlayer();
         SpawnEnemy();
     
         base.Update(gameTime);
@@ -63,6 +69,7 @@ public class Game1 : Game
         // TODO: Add your drawing code here
 
         _spriteBatch.Begin();
+        DrawHeart(_spriteBatch);
         player.Draw(_spriteBatch);
         foreach (Enemy enemy in enemies){
             enemy.Draw(_spriteBatch);
@@ -80,16 +87,32 @@ public class Game1 : Game
             enemies.Add(new Enemy(spaceShip));
     }
 
-    private void EnemyBulletCollision(){
+    private void EnemyBulletCollisionAndPlayer(){
         for(int i = 0; i < enemies.Count; i++){
             for(int j = 0; j < player.Bullets.Count; j++){
+                if(enemies[i].Hitbox.Intersects(player.Hitbox)){
+                    hp--;
+                    enemies.RemoveAt(i);
+                    if (hp <= 0){
+                        Exit();
+                    }
+                }
+                else if(enemies[i].Position.Y > 470){
+                    enemies.RemoveAt(i);
+                }
                 if(enemies[i].Hitbox.Intersects(player.Bullets[j].Hitbox)){
                     enemies.RemoveAt(i);
                     player.Bullets.RemoveAt(j);
-                    i--;
-                    j--;
+                }
+                else if(player.Bullets[j].Position.Y < 0){
+                    player.Bullets.RemoveAt(j);
                 }
             }
         }
+    }
+    private void DrawHeart(SpriteBatch spriteBatch){
+        _spriteBatch.Draw(heart, new Rectangle(10,10,100,100), Color.White);
+        _spriteBatch.Draw(heart, new Rectangle(110,10,100,100), Color.White);
+        _spriteBatch.Draw(heart, new Rectangle(210,10,100,100), Color.White);
     }
 }

@@ -16,6 +16,10 @@ namespace monogame_part2
             get{ return hitbox; }
         }
 
+        public Microsoft.Xna.Framework.Vector2 Position{
+            get{ return position; }
+        }
+
         public Enemy(Texture2D texture){
             this.texture = texture;
             Random rand = new Random();
